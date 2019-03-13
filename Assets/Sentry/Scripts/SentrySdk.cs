@@ -177,8 +177,18 @@ public class SentrySdk : MonoBehaviour
 
         var stack = new List<StackTraceSpec>();
         var exc = condition.Split(new char[] { ':' }, 2);
-        var excType = exc[0];
-        var excValue = exc[1].Substring(1); // strip the space
+        var excType = string.Empty;
+        var excValue = string.Empty;
+        if (exc.Length == 2)
+        {
+            excType = exc[0];
+            excValue = exc[1].Substring(1); // strip the space
+        }
+        else
+        {
+            excType = "GeneralError";
+            excValue = condition;
+        }
 
         foreach (var stackTraceSpec in GetStackTraces(stackTrace))
         {
