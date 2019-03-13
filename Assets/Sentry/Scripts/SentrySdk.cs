@@ -25,6 +25,8 @@ public class SentrySdk : MonoBehaviour
     public bool Debug = true;
     [Header("Override game version")]
     public string Version = "";
+    [Header("Turn Debug.Log messages into breadcrumbs")]
+    public bool logsAsBreadcrumbs = false;
 
     private string _lastErrorMessage = "";
     private Dsn _dsn;
@@ -284,6 +286,11 @@ public class SentrySdk : MonoBehaviour
             return; // dsn not initialized or something exploded, don't try to send it
         }
         _lastErrorMessage = condition;
+        if (type == LogType.Log && logsAsBreadcrumbs)
+        {
+            AddBreadcrumb(condition);
+            return;
+        }
         if (type != LogType.Error && type != LogType.Exception && type != LogType.Assert)
         {
             // only send errors, can be set somewhere what we send and what we don't
