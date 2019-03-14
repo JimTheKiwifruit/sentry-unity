@@ -34,7 +34,7 @@ public class SentrySdk : MonoBehaviour
 
     private static SentrySdk _instance = null;
 
-    public void Start()
+    public void Awake()
     {
         if (Dsn == string.Empty)
         {
